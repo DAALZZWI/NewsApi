@@ -14,22 +14,9 @@ async function getNews() {
         let array = $('ul.list_newsissue')
                     .find('ul li')
                     .map((i, el) => {
-                    
-                        const title = $(el)
-                        .find('div.cont_thumb')
-                        .find('strong.tit_g')
-                        .find('a')
-                        .text()
-                        .replace(/\n/g, '')
-                        .replace(/ /g, '')
-       
-                        const image = $(el)
-                        .find('div.item_issue')
-                        .find('a')
-                        .find('img')
-                        .attr('src')
-                        .replace(/\n/g, '')
-                        .replace(/ /g, '')
+
+                        const title = extractTitle($, el)
+                        const image = extractImage($, el)
 
                     return {title, image}
                     }).get()
@@ -42,7 +29,31 @@ async function getNews() {
     }
 }
 
-module.exports = {
+function extractTitle($, el) {
 
+    const title = $(el)
+        .find('div.cont_thumb')
+        .find('strong.tit_g')
+        .find('a')
+        .text()
+        .replace(/\n/g, '')
+        .replace(/ /g, '')
+
+    return title
+}
+
+function extractImage($, el) {
+
+    const image = $(el)
+        .find('div.item_issue')
+        .find('a')
+        .find('img')
+        .attr('src')
+        .replace(/\n/g, '')
+        .replace(/ /g, '')
+    return image
+}
+
+module.exports = {
     getNews: getNews
 }
