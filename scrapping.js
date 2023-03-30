@@ -42,6 +42,7 @@ async function getNews() {
     }
 }
 
-    module.exports = {
-        getNews: getNews
-    }
+module.exports = {
+
+    getNews: getNews
+}
