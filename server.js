@@ -16,16 +16,23 @@ const server = http.createServer(async (req, res) => {
             if(req.url === '/') {
 
                 /* data */
-                const item = await scrapping.getNews()
+                const extractResponse = await scrapping.getNews()
 
-                res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
-                res.end(JSON.stringify(item))
+                if(extractResponse.data.length) {
+
+                    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
+                    res.end(JSON.stringify(extractResponse.data))
+                } else {
+
+                    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' })
+                    res.end(JSON.stringify(extractResponse.message))
+                }
             }
         }
     } catch (err) {
 
         res.writeHead(500, { 'Content-Type': 'text/html; charset=utf-8' })
-        res.end("ERROR")
+        res.end("There is an error on the server")
     }
 })
 server.listen(8081)

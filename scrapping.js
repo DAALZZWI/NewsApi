@@ -6,6 +6,12 @@ const url = "https://news.daum.net/"
 
 async function getNews() {
 
+    let resource = {
+
+        data: [],
+        message: ""
+    }
+
     try {
 
         const response = await axios.get(url)
@@ -20,12 +26,17 @@ async function getNews() {
 
                     return {title, image}
                     }).get()
-           
-        return array
+
+        resource.data = extractData
+        resource.message = "Successful extraction of news data "
+
+        return resource
     } catch(error) {
-     
-        console.error("catch: " + error)
-        return []
+
+        resource.data = []
+        resource.message = "Failed to extract news data : " + error
+
+        return resource
     }
 }
 
