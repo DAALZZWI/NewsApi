@@ -2,7 +2,7 @@
 /* import */
 const axios = require('axios')
 const cheerio = require('cheerio')
-let url = "https://news.daum.net/"
+const url = "https://news.daum.net/"
 
 async function getNews() {
 
@@ -11,7 +11,7 @@ async function getNews() {
         const response = await axios.get(url)
         const $ = cheerio.load(response.data)
 
-        let array = $('ul.list_newsissue')
+        let extractData = $('ul.list_newsissue')
                     .find('ul li')
                     .map((i, el) => {
 
