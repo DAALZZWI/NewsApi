@@ -1,0 +1,25 @@
+{
+  "name": "newsapi",
+  "version": "1.0.0",
+  "description": "Simple news API to make with Node JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "git repository: https://github.com/DAALZZWI/NewsApi.git"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DAALZZWI/NewsApi.git"
+  },
+  "keywords": [
+    "node.js"
+  ],
+  "author": "DAALZZWI",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DAALZZWI/NewsApi/issues"
+  },
+  "homepage": "https://github.com/DAALZZWI/NewsApi#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
