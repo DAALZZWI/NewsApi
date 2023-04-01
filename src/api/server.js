@@ -4,7 +4,7 @@ const req = require('express/lib/request')
 const http = require('http')
 const fs = require('fs').promises
 const path = require('path')
-const scrapping = require('./scrapping')
+const scrapping = require('../scrapping/scrapping')
 
 /* create server */
 const server = http.createServer(async (req, res) => {
@@ -24,7 +24,7 @@ const server = http.createServer(async (req, res) => {
                     res.end(JSON.stringify(extractResponse.data))
                 } else {
 
-                    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' })
+                    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
                     res.end(JSON.stringify(extractResponse.message))
                 }
             }
