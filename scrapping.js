@@ -49,7 +49,6 @@ function extractTitle($, el) {
         .text()
         .replace(/\n/g, '')
         .replace(/ /g, '')
-
     return title
 }
 
