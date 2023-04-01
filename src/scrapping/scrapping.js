@@ -16,7 +16,7 @@ async function getNews() {
 
         return {
 
-            data : [titles, images],
+            data : manufacture(titles, images),
             message : "Successful extraction of news data"
         }
     } catch(error) {
@@ -59,6 +59,23 @@ function extractImage($) {
                          .replace(/\n/g, '')
                          .replace(/ /g, '')
                 }).get()
+}
+
+function manufacture(titles, images) {
+
+    if (titles.length != images.length) {
+
+        return []
+    }
+
+    let list = []
+
+    for (i = 0; i < titles.length; i++) {
+
+        list.push(titles[i], images[i])
+    }
+
+    return list
 }
 
 module.exports = {
