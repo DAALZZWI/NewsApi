@@ -6,41 +6,38 @@ const fs = require('fs').promises
 const path = require('path')
 const scrapping = require('../scrapping/scrapping')
 
+/* const */
+const port = 8081
+
 /* create server */
 const server = http.createServer(async (req, res) => {
-    
+
+    /* scrapping data */
+    const extractResponse = await scrapping.getNews()
+
     try {
-        
+
         if(req.method === 'GET') {
 
             if(req.url === '/') {
 
                 /* data */
-                const extractResponse = await scrapping.getNews()
-
-                if(extractResponse.data.length) {
-
-                    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
-                    res.end(JSON.stringify(extractResponse.data))
-                } else {
-
-                    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
-                    res.end(JSON.stringify(extractResponse.message))
-                }
+                res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
+                res.end(JSON.stringify(extractResponse))
             }
         }
     } catch (err) {
 
-        res.writeHead(500, { 'Content-Type': 'text/html; charset=utf-8' })
-        res.end("There is an error on the server")
+        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
+        res.end(extractResponse)
     }
 })
-server.listen(8081)
+server.listen(port)
 
 /* server status message */
 server.on(
     'listening', 
-    () => { console.log('The server is waiting at 8081 ports') }
+    () => { console.log('The server is waiting at ' + port + ' ports') }
 )
 server.on(
     'error', 

@@ -2,8 +2,12 @@
 /* import */
 const axios = require('axios')
 const cheerio = require('cheerio')
+
+/* const */
 const url = "https://news.daum.net/"
 
+
+/* scrapping news data */
 async function getNews() {
 
     try {
@@ -11,71 +15,53 @@ async function getNews() {
         const response = await axios.get(url)
         const $ = cheerio.load(response.data)
 
-        const titles = extractTitle($)
-        const images = extractImage($)
+        const extractData = $('ul.list_newsissue')
+            .find('ul li')
+            .map((i, el) => {
+
+                const titles = extractTitle($, el)
+                const images = extractImage($, el)
+
+                return {titles, images}
+            }).get()
 
         return {
 
-            data : manufacture(titles, images),
-            message : "Successful extraction of news data"
+            data : extractData
         }
-    } catch(error) {
+    } catch (error) {
 
         return {
 
-            data : [],
-            message : "Failed to extract news data : " + error
+            data : "Failed to extract news data"
         }
     }
 }
 
-function extractTitle($) {
+function extractTitle($, el) {
 
-    return $('ul.list_newsissue')
-                .find('ul li')
-                .map((i, el) => {
+    const title = $(el)
+        .find('div.cont_thumb')
+        .find('strong.tit_g')
+        .find('a')
+        .text()
+        .replace(/\n/g, '')
+        .replace(/ /g, '')
 
-                    return $(el)
-                        .find('div.cont_thumb')
-                        .find('strong.tit_g')
-                        .find('a')
-                        .text()
-                        .replace(/\n/g, '')
-                        .replace(/ /g, '')
-                }).get()
+    return title
 }
 
-function extractImage($) {
+function extractImage($, el) {
 
-    return $('ul.list_newsissue')
-                .find('ul li')
-                 .map((i, el) => {
+    const image = $(el)
+        .find('div.item_issue')
+        .find('a')
+        .find('img')
+        .attr('src')
+        .replace(/%/g, '/')
+        .replace(/ /g, '')
 
-                     return $(el)
-                         .find('div.item_issue')
-                         .find('a')
-                         .find('img')
-                         .attr('src')
-                         .replace(/\n/g, '')
-                         .replace(/ /g, '')
-                }).get()
-}
-
-function manufacture(titles, images) {
-
-    if (titles.length != images.length) {
-
-        return []
-    }
-
-    let list = []
-
-    for (i = 0; i < titles.length; i++) {
-
-        list.push(titles[i], images[i])
-    }
-
-    return list
+    return image
 }
 
 module.exports = {
