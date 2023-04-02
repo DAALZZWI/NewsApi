@@ -58,8 +58,6 @@ function extractImage($, el) {
         .find('a')
         .find('img')
         .attr('src')
-        .replace(/%/g, '/')
-        .replace(/ /g, '')
 
     return image
 }
