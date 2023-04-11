@@ -10,31 +10,22 @@ const url = "https://news.daum.net/"
 /* scrapping news data */
 async function getNews() {
 
-    try {
+    const response = await axios.get(url)
+    const $ = cheerio.load(response.data)
 
-        const response = await axios.get(url)
-        const $ = cheerio.load(response.data)
+    const extractData = $('ul.list_newsissue')
+        .find('ul li')
+        .map((i, el) => {
 
-        const extractData = $('ul.list_newsissue')
-            .find('ul li')
-            .map((i, el) => {
+            const titles = extractTitle($, el)
+            const images = extractImage($, el)
 
-                const titles = extractTitle($, el)
-                const images = extractImage($, el)
+            return {titles, images}
+        }).get()
 
-                return {titles, images}
-            }).get()
+    return {
 
-        return {
-
-            data : extractData
-        }
-    } catch (error) {
-
-        return {
-
-            data : "Failed to extract news data"
-        }
+        data : extractData
     }
 }
 
@@ -58,7 +49,6 @@ function extractImage($, el) {
         .find('a')
         .find('img')
         .attr('src')
-
     return image
 }
 

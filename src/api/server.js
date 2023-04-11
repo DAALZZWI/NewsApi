@@ -12,10 +12,10 @@ const port = 8081
 /* create server */
 const server = http.createServer(async (req, res) => {
 
-    /* scrapping data */
-    const extractResponse = await scrapping.getNews()
-
     try {
+
+        /* scrapping data */
+        const extractResponse = await scrapping.getNews()
 
         if(req.method === 'GET') {
 
@@ -28,10 +28,11 @@ const server = http.createServer(async (req, res) => {
         }
     } catch (err) {
 
-        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
-        res.end(extractResponse)
+        res.writeHead(500, { 'Content-Type': 'text/html; charset=utf-8' })
+        res.end('Error Exception: ' + err.message)
     }
 })
+
 server.listen(port)
 
 /* server status message */
