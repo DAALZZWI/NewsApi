@@ -2,13 +2,15 @@
 FROM node:20
 
 # Dockerfile 생성 관리하는 관리자 지정
-MAINTAINER daalzzwi <daalzzwi@gmail.com>
+LABEL name = "daalzzwi"
+LABEL email = "daalzzwi@gmail.com"
+LABEL version = "1.0"
 
 # api_server 폴더를 WorkDir로 지정
 WORKDIR /usr/src/api_server
 
 # Dockerfile가 있는 경로의 모든파일을 /api_server에 복사
-COPY . /api_server
+COPY . /usr/src/api_server
 
 # npm install 실행
 RUN npm install
